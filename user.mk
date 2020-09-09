@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年08月21日 星期五 11时25分24秒
+#   修改日期：2020年09月09日 星期三 10时20分12秒
 #   描    述：
 #
 #================================================================
@@ -39,6 +39,7 @@ USER_C_SOURCES += apps/modules/app/https.c
 USER_C_SOURCES += apps/modules/app/request_ws.c
 USER_C_SOURCES += apps/modules/app/net_protocol_ws.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
+USER_C_SOURCES += apps/modules/app/global.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c

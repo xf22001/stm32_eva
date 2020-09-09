@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年08月21日 星期五 11时40分27秒
+ *   修改日期：2020年09月09日 星期三 13时53分03秒
  *   描    述：
  *
  *================================================================*/
@@ -329,7 +329,7 @@ static void fn11(request_t *request)
 	int fn;
 	int catched;
 	int ret;
-	app_info_t *buffer = (app_info_t *)os_alloc(sizeof(app_info_t));
+	mechine_info_t *buffer = (mechine_info_t *)os_alloc(sizeof(mechine_info_t));
 
 	if(buffer == NULL) {
 		return;
@@ -338,15 +338,17 @@ static void fn11(request_t *request)
 	ret = sscanf(content, "%d %s %s %s %n", &fn, buffer->device_id, buffer->host, buffer->port, &catched);
 
 	if(ret == 4) {
-		strcpy(app_info->device_id, buffer->device_id);
-		strcpy(app_info->host, buffer->host);
-		strcpy(app_info->port, buffer->port);
+		app_info->available = 0;
+		strcpy(app_info->mechine.device_id, buffer->device_id);
+		strcpy(app_info->mechine.host, buffer->host);
+		strcpy(app_info->mechine.port, buffer->port);
+		app_info->available = 1;
 		app_save_config();
 	}
 
 	os_free(buffer);
 
-	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->device_id, app_info->host, app_info->port);
+	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
 }
 static server_item_t server_map[] = {
 	{1, fn1},

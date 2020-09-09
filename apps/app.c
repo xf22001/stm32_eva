@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年08月21日 星期五 12时47分24秒
+ *   修改日期：2020年09月09日 星期三 14时15分14秒
  *   描    述：
  *
  *================================================================*/
@@ -21,6 +21,7 @@
 #include "mbedtls.h"
 
 #include "eeprom.h"
+#include "global.h"
 
 //#define LOG_NONE
 #include "log.h"
@@ -79,7 +80,7 @@ static int app_load_config(void)
 
 	ret = 0;
 
-	eeprom_read(eeprom_info, offset, (uint8_t *)app_info, sizeof(app_info_t));
+	eeprom_read(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
 
 	return ret;
 }
@@ -110,7 +111,7 @@ int app_save_config(void)
 	eeprom_write(eeprom_info, offset, (uint8_t *)&eeprom_head, sizeof(eeprom_head_t));
 	offset += sizeof(eeprom_head_t);
 
-	eeprom_write(eeprom_info, offset, (uint8_t *)app_info, sizeof(app_info_t));
+	eeprom_write(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
 
 	return 0;
 }
@@ -161,9 +162,9 @@ void app(void const *argument)
 	probe_broadcast_add_poll_loop(poll_loop);
 	probe_server_add_poll_loop(poll_loop);
 
-	//while(is_log_server_valid() == 0) {
-	//	osDelay(1);
-	//}
+	while(is_log_server_valid() == 0) {
+		osDelay(1);
+	}
 
 	debug("===========================================start app============================================\n");
 
@@ -187,15 +188,17 @@ void app(void const *argument)
 
 	if(app_load_config() == 0) {
 		debug("app_load_config successful!\n");
-		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->device_id, app_info->host, app_info->port);
+		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+		app_info->available = 1;
 	} else {
 		debug("app_load_config failed!\n");
-		snprintf(app_info->device_id, sizeof(app_info->device_id), "%s", "0000000000");
-		snprintf(app_info->host, sizeof(app_info->host), "%s", "112.74.40.227");
-		snprintf(app_info->port, sizeof(app_info->port), "%s", "12345");
-		snprintf(app_info->path, sizeof(app_info->path), "%s", "");
-		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->device_id, app_info->host, app_info->port);
+		snprintf(app_info->mechine.device_id, sizeof(app_info->mechine.device_id), "%s", "0000000000");
+		snprintf(app_info->mechine.host, sizeof(app_info->mechine.host), "%s", "112.74.40.227");
+		snprintf(app_info->mechine.port, sizeof(app_info->mechine.port), "%s", "12345");
+		snprintf(app_info->mechine.path, sizeof(app_info->mechine.path), "%s", "");
+		debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
 		app_save_config();
+		app_info->available = 1;
 	}
 
 	net_client_add_poll_loop(poll_loop);
