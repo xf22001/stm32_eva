@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年09月09日 星期三 14时15分14秒
+ *   修改日期：2020年09月09日 星期三 16时50分08秒
  *   描    述：
  *
  *================================================================*/
@@ -21,7 +21,7 @@
 #include "mbedtls.h"
 
 #include "eeprom.h"
-#include "global.h"
+#include "config_list.h"
 
 //#define LOG_NONE
 #include "log.h"
@@ -116,6 +116,29 @@ int app_save_config(void)
 	return 0;
 }
 
+#define test_config_get(cls, key) do { \
+	debug("get cls:%u, key:%u, value:%p\n", cls, key, config_get_class_key_value(cls, key)); \
+} while(0)
+
+void test_config(void)
+{
+	config_init();
+
+	config_set_class_key_value(0, 1, (void *)1);
+	config_dump_class_key_value(); \
+	config_set_class_key_value(0, 2, (void *)1);
+	config_dump_class_key_value(); \
+	config_set_class_key_value(2, 1, (void *)1);
+	config_dump_class_key_value(); \
+	config_set_class_key_value(2, 2, (void *)1);
+	config_dump_class_key_value(); \
+	test_config_get(0, 1);
+	test_config_get(0, 2);
+	test_config_get(0, 3);
+	test_config_get(1, 3);
+	test_config_get(2, 2);
+}
+
 void app(void const *argument)
 {
 
@@ -202,6 +225,7 @@ void app(void const *argument)
 	}
 
 	net_client_add_poll_loop(poll_loop);
+	test_config();
 
 	while(1) {
 		osDelay(1000);
