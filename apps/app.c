@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年09月09日 星期三 16时50分08秒
+ *   修改日期：2020年09月09日 星期三 17时20分42秒
  *   描    述：
  *
  *================================================================*/
@@ -148,6 +148,7 @@ void app(void const *argument)
 
 	/* Up to user define the empty MX_MBEDTLS_Init() function located in mbedtls.c file */
 	MX_MBEDTLS_Init();
+	config_init();
 
 	{
 		uart_info_t *uart_info = get_or_alloc_uart_info(&huart3);

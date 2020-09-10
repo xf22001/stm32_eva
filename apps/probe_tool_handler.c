@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年09月09日 星期三 13时53分03秒
+ *   修改日期：2020年09月10日 星期四 10时04分01秒
  *   描    述：
  *
  *================================================================*/
@@ -20,7 +20,6 @@
 #include "net_client.h"
 #include "flash.h"
 #include "iap.h"
-#include "net_client_callback.h"
 #include "app.h"
 #define LOG_UDP
 #include "log.h"
@@ -202,11 +201,11 @@ static void fn5(request_t *request)
 	_printf("free heap size:%d\n", size);
 	_printf("current ticks:%lu\n", ticks);
 	_printf("%lu day %lu hour %lu min %lu sec\n",
-	               ticks / (1000 * 60 * 60 * 24),//day
-	               (ticks % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),//hour
-	               (ticks % (1000 * 60 * 60)) / (1000 * 60),//min
-	               (ticks % (1000 * 60)) / (1000)//sec
-	              );
+	        ticks / (1000 * 60 * 60 * 24),//day
+	        (ticks % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),//hour
+	        (ticks % (1000 * 60 * 60)) / (1000 * 60),//min
+	        (ticks % (1000 * 60)) / (1000)//sec
+	       );
 
 	if(size < 4 * 1024) {
 		return;
@@ -242,6 +241,13 @@ static void fn6(request_t *request)
 	int fn;
 	int catched;
 	int ret = 0;
+	net_client_info_t *net_client_info = get_net_client_info();
+
+	if(net_client_info == NULL) {
+		return;
+	}
+
+	set_client_state(net_client_info, CLIENT_SUSPEND);
 
 	ret = sscanf(content, "%d %s%n", &fn, protocol, &catched);
 
@@ -249,15 +255,16 @@ static void fn6(request_t *request)
 		_printf("protocol:%s!\n", protocol);
 
 		if(memcmp(protocol, "tcp", 3) == 0) {
-			set_protocol_if(&protocol_if_tcp);
+			set_net_client_protocol_if(net_client_info, &protocol_if_tcp);
 		} else if(memcmp(protocol, "udp", 3) == 0) {
-			set_protocol_if(&protocol_if_udp);
+			set_net_client_protocol_if(net_client_info, &protocol_if_udp);
 		}
 
-		set_client_state(CLIENT_REINIT);
 	} else {
 		_printf("no protocol!\n");
 	}
+
+	set_client_state(net_client_info, CLIENT_REINIT);
 }
 
 #include "eeprom.h"
@@ -329,11 +336,18 @@ static void fn11(request_t *request)
 	int fn;
 	int catched;
 	int ret;
+	net_client_info_t *net_client_info = get_net_client_info();
 	mechine_info_t *buffer = (mechine_info_t *)os_alloc(sizeof(mechine_info_t));
+
+	if(net_client_info == NULL) {
+		return;
+	}
 
 	if(buffer == NULL) {
 		return;
 	}
+
+	set_client_state(net_client_info, CLIENT_SUSPEND);
 
 	ret = sscanf(content, "%d %s %s %s %n", &fn, buffer->device_id, buffer->host, buffer->port, &catched);
 
@@ -349,6 +363,8 @@ static void fn11(request_t *request)
 	os_free(buffer);
 
 	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!\n", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+
+	set_client_state(net_client_info, CLIENT_REINIT);
 }
 static server_item_t server_map[] = {
 	{1, fn1},
