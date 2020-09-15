@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年09月10日 星期四 10时04分01秒
+ *   修改日期：2020年09月15日 星期二 15时50分33秒
  *   描    述：
  *
  *================================================================*/
@@ -21,6 +21,8 @@
 #include "flash.h"
 #include "iap.h"
 #include "app.h"
+#include "ftp_client.h"
+
 #define LOG_UDP
 #include "log.h"
 
@@ -366,6 +368,29 @@ static void fn11(request_t *request)
 
 	set_client_state(net_client_info, CLIENT_REINIT);
 }
+
+static void fn12(request_t *request)
+{
+	char *content = (char *)(request + 1);
+	int fn;
+	int catched;
+	int ret;
+	ftp_server_path_t *ftp_server_path = (ftp_server_path_t *)os_alloc(sizeof(ftp_server_path_t));
+
+	if(ftp_server_path == NULL) {
+		return;
+	}
+
+	ret = sscanf(content, "%d %s %s %s %s %s %n", &fn, ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password, &catched);
+
+	if(ret == 6) {
+		debug("server host:\'%s\', server port:\'%s\', path\'%s\', user:\'%s\', password\'%s\'\n", ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
+		request_ftp_client_connect(ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
+	}
+
+	os_free(ftp_server_path);
+}
+
 static server_item_t server_map[] = {
 	{1, fn1},
 	{2, fn2},
@@ -378,6 +403,7 @@ static server_item_t server_map[] = {
 	{9, fn9},
 	{10, fn10},
 	{11, fn11},
+	{12, fn12},
 };
 
 server_map_info_t server_map_info = {

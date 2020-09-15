@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年09月09日 星期三 17时20分42秒
+ *   修改日期：2020年09月15日 星期二 14时01分09秒
  *   描    述：
  *
  *================================================================*/
@@ -18,6 +18,7 @@
 #include "test_serial.h"
 #include "probe_tool.h"
 #include "net_client.h"
+#include "ftp_client.h"
 #include "mbedtls.h"
 
 #include "eeprom.h"
@@ -225,7 +226,8 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	net_client_add_poll_loop(poll_loop);
+	//net_client_add_poll_loop(poll_loop);
+	ftp_client_add_poll_loop(poll_loop);
 	test_config();
 
 	while(1) {
