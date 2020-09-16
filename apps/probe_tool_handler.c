@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年09月15日 星期二 15时50分33秒
+ *   修改日期：2020年09月16日 星期三 14时39分03秒
  *   描    述：
  *
  *================================================================*/
@@ -369,6 +369,9 @@ static void fn11(request_t *request)
 	set_client_state(net_client_info, CLIENT_REINIT);
 }
 
+//12 192.168.1.128 2121 /user.mk anonymous
+//12 192.168.1.128 2121 /user.mk user pass
+//12 ftp.gnu.org 21 /gnu/tar/tar-1.32.tar.gz anonymous
 static void fn12(request_t *request)
 {
 	char *content = (char *)(request + 1);
@@ -381,11 +384,15 @@ static void fn12(request_t *request)
 		return;
 	}
 
+	memset(ftp_server_path, 0, sizeof(ftp_server_path_t));
+
 	ret = sscanf(content, "%d %s %s %s %s %s %n", &fn, ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password, &catched);
 
-	if(ret == 6) {
+	debug("ret:%d\n", ret);
+
+	if((ret == 6) || (ret == 5)) {
 		debug("server host:\'%s\', server port:\'%s\', path\'%s\', user:\'%s\', password\'%s\'\n", ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
-		request_ftp_client_connect(ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
+		request_ftp_client_download(ftp_server_path->host, ftp_server_path->port, ftp_server_path->path, ftp_server_path->user, ftp_server_path->password);
 	}
 
 	os_free(ftp_server_path);
