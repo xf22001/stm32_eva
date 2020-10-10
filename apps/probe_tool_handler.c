@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年09月16日 星期三 17时02分24秒
+ *   修改日期：2020年10月10日 星期六 09时43分34秒
  *   描    述：
  *
  *================================================================*/
@@ -236,6 +236,7 @@ static void fn5(request_t *request)
 
 extern protocol_if_t protocol_if_tcp;
 extern protocol_if_t protocol_if_udp;
+extern request_callback_t request_callback_default;
 static void fn6(request_t *request)
 {
 	char *content = (char *)(request + 1);
@@ -258,8 +259,10 @@ static void fn6(request_t *request)
 
 		if(memcmp(protocol, "tcp", 3) == 0) {
 			set_net_client_protocol_if(net_client_info, &protocol_if_tcp);
+			set_net_client_request_callback(net_client_info, &request_callback_default);
 		} else if(memcmp(protocol, "udp", 3) == 0) {
 			set_net_client_protocol_if(net_client_info, &protocol_if_udp);
+			set_net_client_request_callback(net_client_info, &request_callback_default);
 		}
 
 	} else {

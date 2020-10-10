@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年09月17日 星期四 15时20分59秒
+ *   修改日期：2020年10月10日 星期六 09时15分15秒
  *   描    述：
  *
  *================================================================*/
@@ -227,8 +227,8 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	//net_client_add_poll_loop(poll_loop);
-	//ftp_client_add_poll_loop(poll_loop);
+	net_client_add_poll_loop(poll_loop);
+	ftp_client_add_poll_loop(poll_loop);
 
 	//ftpd_init();
 
