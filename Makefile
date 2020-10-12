@@ -248,7 +248,7 @@ Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c  
+Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c
 
 # ASM sources
 ASM_SOURCES =  \

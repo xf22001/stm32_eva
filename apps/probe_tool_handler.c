@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年10月10日 星期六 09时43分34秒
+ *   修改日期：2020年10月12日 星期一 09时00分50秒
  *   描    述：
  *
  *================================================================*/
@@ -195,11 +195,13 @@ static void fn5(request_t *request)
 	uint8_t *os_thread_info;
 	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
+	uint16_t cpu_usage = osGetCPUUsage();
 
 #if defined(USER_APP)
 	is_app = 1;
 #endif
 
+	_printf("cpu usage:%d\n", cpu_usage);
 	_printf("free heap size:%d\n", size);
 	_printf("current ticks:%lu\n", ticks);
 	_printf("%lu day %lu hour %lu min %lu sec\n",

@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年09月17日 星期四 15时19分22秒
+#   修改日期：2020年10月12日 星期一 10时13分48秒
 #   描    述：
 #
 #================================================================
@@ -54,7 +54,10 @@ USER_C_SOURCES += apps/modules/os/bitmap_ops.c
 USER_C_SOURCES += apps/modules/os/iap.c
 USER_C_SOURCES += apps/modules/os/os_utils.c
 USER_C_SOURCES += apps/modules/os/net_utils.c
+USER_C_SOURCES += apps/modules/os/cpu_utils.c
 USER_C_SOURCES += apps/modules/tests/test_serial.c
+
+USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 
 C_SOURCES += $(USER_C_SOURCES)
 
