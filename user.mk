@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年10月12日 星期一 10时13分48秒
+#   修改日期：2020年11月03日 星期二 15时14分42秒
 #   描    述：
 #
 #================================================================
@@ -44,6 +44,8 @@ USER_C_SOURCES += apps/modules/app/config_list.c
 #USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
 #USER_C_SOURCES += apps/modules/app/ftpd/vfs.c
 #USER_C_SOURCES += apps/modules/app/ftpd/pseudo_disk_io.c
+USER_C_SOURCES += apps/modules/app/mt_file.c
+USER_C_SOURCES += apps/modules/app/file_log.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c
