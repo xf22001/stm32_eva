@@ -115,10 +115,10 @@
 /* Memory management macros */
 
 /** Alias for memory allocation. */
-#define USBH_malloc         malloc
+#define USBH_malloc         os_alloc
 
 /** Alias for memory release. */
-#define USBH_free           free
+#define USBH_free           os_free
 
 /** Alias for memory set. */
 #define USBH_memset         memset

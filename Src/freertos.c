@@ -185,7 +185,7 @@ void StartDefaultTask(void const * argument)
   /* init code for USB_HOST */
   MX_USB_HOST_Init();
   /* USER CODE BEGIN StartDefaultTask */
-  osThreadDef(app, app, osPriorityNormal, 0, 256);
+  osThreadDef(app, app, osPriorityNormal, 0, 128 * 2 * 2);
   osThreadCreate(osThread(app), NULL);
   /* Infinite loop */
   for(;;)
