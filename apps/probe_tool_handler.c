@@ -189,6 +189,7 @@ static void fn4(request_t *request)
 	memset(request, 0, RECV_BUFFER_SIZE);
 }
 
+uint16_t osGetCPUUsage(void);
 static void fn5(request_t *request)
 {
 	int size = xPortGetFreeHeapSize();

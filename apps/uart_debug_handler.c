@@ -20,17 +20,20 @@ static void fn1(char *arguments)
 	_printf("%s:%s:%d arguments:\'%s\'\n", __FILE__, __func__, __LINE__, arguments);
 }
 
+uint16_t osGetCPUUsage(void);
 static void fn5(char *arguments)
 {
 	int size = xPortGetFreeHeapSize();
 	uint8_t *os_thread_info;
 	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
+	uint16_t cpu_usage = osGetCPUUsage();
 
 #if defined(USER_APP)
 	is_app = 1;
 #endif
 
+	_printf("cpu usage:%d\n", cpu_usage);
 	_printf("free heap size:%d\n", size);
 	_printf("current ticks:%lu\n", ticks);
 	_printf("%lu day %lu hour %lu min %lu sec\n",

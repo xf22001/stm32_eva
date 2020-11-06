@@ -18,6 +18,7 @@ USER_C_INCLUDES += -Iapps/modules/drivers
 USER_C_INCLUDES += -Iapps/modules/drivers/fw_1.9.0
 USER_C_INCLUDES += -Iapps/modules/hardware
 USER_C_INCLUDES += -Iapps/modules/app
+USER_C_INCLUDES += -Iapps/modules/app/ftpd
 USER_C_INCLUDES += -Iapps/modules/tests
 
 C_INCLUDES += $(USER_C_INCLUDES)
@@ -29,6 +30,7 @@ USER_C_SOURCES += apps/uart_debug_handler.c
 USER_C_SOURCES += apps/modules/app/poll_loop.c
 USER_C_SOURCES += apps/modules/app/probe_tool.c
 USER_C_SOURCES += apps/modules/app/uart_debug.c
+USER_C_SOURCES += apps/modules/app/file_log.c
 USER_C_SOURCES += apps/modules/app/request.c
 USER_C_SOURCES += apps/modules/app/net_client.c
 USER_C_SOURCES += apps/modules/app/net_protocol_udp.c
@@ -40,12 +42,14 @@ USER_C_SOURCES += apps/modules/app/net_protocol_ws.c
 USER_C_SOURCES += apps/modules/app/ftp_client.c
 USER_C_SOURCES += apps/modules/app/net_callback.c
 USER_C_SOURCES += apps/modules/app/config_list.c
+USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
+#USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_ramdisk
 #C_SOURCES := $(filter-out Middlewares/Third_Party/FatFs/src/diskio.c ,$(C_SOURCES))
-#USER_C_SOURCES += apps/modules/app/ftpd/ftpd.c
-#USER_C_SOURCES += apps/modules/app/ftpd/vfs.c
-#USER_C_SOURCES += apps/modules/app/ftpd/pseudo_disk_io.c
+#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/vfs.c
+#USER_C_SOURCES += apps/modules/app/ftpd/vfs_ramdisk/pseudo_disk_io.c
+USER_C_INCLUDES += -Iapps/modules/app/ftpd/vfs_disk
+USER_C_SOURCES += apps/modules/app/ftpd/vfs_disk/vfs.c
 USER_C_SOURCES += apps/modules/app/mt_file.c
-USER_C_SOURCES += apps/modules/app/file_log.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c
@@ -66,24 +70,24 @@ C_SOURCES += $(USER_C_SOURCES)
 CFLAGS += $(USER_CFLAGS)
 LDFLAGS += -u _printf_float
 
-IAP_FILE := apps/modules/os/iap.h
+#IAP_FILE := apps/modules/os/iap.h
 
-define update-iap-include
-	if [ -f $(IAP_FILE) ]; then
-		touch $(IAP_FILE);
-	fi
-endef
+#define update-iap-include
+#	if [ -f $(IAP_FILE) ]; then
+#		touch $(IAP_FILE);
+#	fi
+#endef
 
-ifeq ("$(origin APP)", "command line")
-CFLAGS += -DUSER_APP
-LDSCRIPT = STM32F207VETx_FLASH_APP.ld
-$(info $(shell $(update-iap-include)))
-$(info "build app!")
-else
-LDSCRIPT = STM32F207VETx_FLASH.ld
-$(info $(shell $(update-iap-include)))
-$(info "build bootloader!")
-endif
+#ifeq ("$(origin APP)", "command line")
+#CFLAGS += -DUSER_APP
+#LDSCRIPT = STM32F407VETx_FLASH_APP.ld
+#$(info $(shell $(update-iap-include)))
+#$(info "build app!")
+#else
+#LDSCRIPT = STM32F407VETx_FLASH.ld
+#$(info $(shell $(update-iap-include)))
+#$(info "build bootloader!")
+#endif
 
 default: all
 

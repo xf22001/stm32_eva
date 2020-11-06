@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月06日 星期五 12时18分09秒
+ *   修改日期：2020年11月06日 星期五 13时51分10秒
  *   描    述：
  *
  *================================================================*/
@@ -25,7 +25,6 @@
 #include "eeprom.h"
 #include "config_list.h"
 
-//#define LOG_NONE
 #include "log.h"
 
 #include "file_log.h"
@@ -129,13 +128,13 @@ void test_config(void)
 	config_init();
 
 	config_set_class_key_value(0, 1, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(0, 2, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(2, 1, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	config_set_class_key_value(2, 2, (void *)1);
-	config_dump_class_key_value(); \
+	config_dump_class_key_value();
 	test_config_get(0, 1);
 	test_config_get(0, 2);
 	test_config_get(0, 3);
@@ -191,9 +190,9 @@ void app(void const *argument)
 	probe_broadcast_add_poll_loop(poll_loop);
 	probe_server_add_poll_loop(poll_loop);
 
-	while(is_log_server_valid() == 0) {
-		osDelay(1);
-	}
+	//while(is_log_server_valid() == 0) {
+	//	osDelay(1);
+	//}
 
 	debug("===========================================start app============================================\n");
 
@@ -230,10 +229,10 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	net_client_add_poll_loop(poll_loop);
-	ftp_client_add_poll_loop(poll_loop);
+	//net_client_add_poll_loop(poll_loop);
+	//ftp_client_add_poll_loop(poll_loop);
 
-	//ftpd_init();
+	ftpd_init();
 
 	//test_config();
 
