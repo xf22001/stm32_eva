@@ -82,6 +82,7 @@ Middlewares/Third_Party/FatFs/src/diskio.c \
 Middlewares/Third_Party/FatFs/src/ff.c \
 Middlewares/Third_Party/FatFs/src/ff_gen_drv.c \
 Middlewares/Third_Party/FatFs/src/option/syscall.c \
+Middlewares/Third_Party/FatFs/src/option/ccsbcs.c \
 Middlewares/Third_Party/FatFs/src/drivers/usbh_diskio.c \
 Middlewares/Third_Party/FreeRTOS/Source/croutine.c \
 Middlewares/Third_Party/FreeRTOS/Source/event_groups.c \
@@ -248,8 +249,7 @@ Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_ioreq.c \
 Middlewares/ST/STM32_USB_Host_Library/Core/Src/usbh_pipes.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc.c \
 Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_bot.c \
-Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c \
-Middlewares/Third_Party/FatFs/src/option/ccsbcs.c
+Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Src/usbh_msc_scsi.c  
 
 # ASM sources
 ASM_SOURCES =  \
