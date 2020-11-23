@@ -32,6 +32,8 @@
 /* Within 'USER CODE' section, code will be kept by default at each generation */
 /* USER CODE BEGIN 0 */
 
+#include "os_utils.h"
+
 /* USER CODE END 0 */
 
 /* Private define ------------------------------------------------------------*/
@@ -223,6 +225,10 @@ static void low_level_init(struct netif *netif)
   heth.Init.MediaInterface = ETH_MEDIA_INTERFACE_RMII;
 
   /* USER CODE BEGIN MACADDRESS */
+
+  MACAddr[3] = get_u8_b2_from_u32(HAL_GetUIDw0());
+  MACAddr[4] = get_u8_b1_from_u32(HAL_GetUIDw0());
+  MACAddr[5] = get_u8_b0_from_u32(HAL_GetUIDw0());
     
   /* USER CODE END MACADDRESS */
 
