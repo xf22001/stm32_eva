@@ -15,7 +15,6 @@
 #include "cmsis_os.h"
 
 #include "iwdg.h"
-#include "mbedtls.h"
 
 #include "os_utils.h"
 #include "test_serial.h"
