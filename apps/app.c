@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年11月06日 星期五 13时51分10秒
+ *   修改日期：2020年12月09日 星期三 13时13分11秒
  *   描    述：
  *
  *================================================================*/
@@ -14,13 +14,15 @@
 #include "app_platform.h"
 #include "cmsis_os.h"
 
+#include "iwdg.h"
+#include "mbedtls.h"
+
 #include "os_utils.h"
 #include "test_serial.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
-#include "mbedtls.h"
 
 #include "eeprom.h"
 #include "config_list.h"
@@ -146,11 +148,6 @@ void app(void const *argument)
 {
 
 	poll_loop_t *poll_loop;
-	/* MX_LWIP_Init() is generated within mbedtls_net_init() function in net_cockets.c file */
-	/* Up to user to call mbedtls_net_init() function in MBEDTLS initialization step */
-
-	/* Up to user define the empty MX_MBEDTLS_Init() function located in mbedtls.c file */
-	MX_MBEDTLS_Init();
 	config_init();
 	mt_file_environment_init();
 
@@ -229,7 +226,7 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	//net_client_add_poll_loop(poll_loop);
+	net_client_add_poll_loop(poll_loop);
 	//ftp_client_add_poll_loop(poll_loop);
 
 	ftpd_init();
@@ -296,6 +293,7 @@ static void update_work_led(void)
 
 void idle(void const *argument)
 {
+	MX_IWDG_Init();
 	HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3);
 
 	while(1) {

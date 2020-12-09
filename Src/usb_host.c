@@ -27,10 +27,6 @@
 
 /* USER CODE BEGIN Includes */
 
-#include "mt_file.h"
-#include "file_log.h"
-#include "vfs.h"
-
 /* USER CODE END Includes */
 
 /* USER CODE BEGIN PV */
@@ -73,9 +69,9 @@ static void USBH_UserProcess(USBH_HandleTypeDef *phost, uint8_t id);
 void MX_USB_HOST_Init(void)
 {
   /* USER CODE BEGIN USB_HOST_Init_PreTreatment */
-  
+
   /* USER CODE END USB_HOST_Init_PreTreatment */
-  
+
   /* Init host Library, add supported class and start the library. */
   if (USBH_Init(&hUsbHostFS, USBH_UserProcess, HOST_FS) != USBH_OK)
   {
@@ -90,7 +86,7 @@ void MX_USB_HOST_Init(void)
     Error_Handler();
   }
   /* USER CODE BEGIN USB_HOST_Init_PostTreatment */
-  
+
   /* USER CODE END USB_HOST_Init_PostTreatment */
 }
 
@@ -107,24 +103,10 @@ static void USBH_UserProcess  (USBH_HandleTypeDef *phost, uint8_t id)
 
   case HOST_USER_DISCONNECTION:
   Appli_state = APPLICATION_DISCONNECT;
-  {
-	int ret = mt_f_mount(0, "", 0);
-
-	if(ret != FR_OK) {
-	}
-	try_to_close_log();
-  }
   break;
 
   case HOST_USER_CLASS_ACTIVE:
   Appli_state = APPLICATION_READY;
-  {
-	FATFS *pfs = get_vfs_fs();
-	int ret = mt_f_mount(pfs, "", 0);
-
-	if(ret != FR_OK) {
-	}
-  }
   break;
 
   case HOST_USER_CONNECTION:
