@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年11月03日 星期二 15时14分42秒
+#   修改日期：2020年12月17日 星期四 14时26分49秒
 #   描    述：
 #
 #================================================================
@@ -27,6 +27,7 @@ USER_C_SOURCES += apps/app.c
 USER_C_SOURCES += apps/probe_tool_handler.c
 USER_C_SOURCES += apps/uart_debug_handler.c
 
+USER_C_SOURCES += apps/modules/app/eeprom_config.c
 USER_C_SOURCES += apps/modules/app/poll_loop.c
 USER_C_SOURCES += apps/modules/app/probe_tool.c
 USER_C_SOURCES += apps/modules/app/uart_debug.c

@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月17日 星期四 12时44分54秒
+ *   修改日期：2020年12月17日 星期四 14时30分36秒
  *   描    述：
  *
  *================================================================*/
@@ -23,7 +23,6 @@
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
 
-#include "eeprom.h"
 #include "config_list.h"
 
 #include "log.h"
@@ -47,76 +46,12 @@ app_info_t *get_app_info(void)
 
 static int app_load_config(void)
 {
-	int ret = -1;
-	uint32_t offset;
-	uint32_t crc = 0;
-	eeprom_app_head_t eeprom_app_head;
-
-	offset = 0;
-
-	if(detect_eeprom(eeprom_info) != 0) {
-		debug("\n");
-		return ret;
-	}
-
-	eeprom_read(eeprom_info, offset, (uint8_t *)&eeprom_app_head, sizeof(eeprom_app_head_t));
-	offset += sizeof(eeprom_app_head_t);
-
-	if(eeprom_app_head.payload_size != (sizeof(eeprom_app_info_t) - sizeof(eeprom_app_head_t))) {
-		debug("\n");
-		return ret;
-	}
-
-	crc += eeprom_app_head.payload_size;
-	crc += (uint32_t)'e';
-	crc += (uint32_t)'v';
-	crc += (uint32_t)'a';
-
-	eeprom_read(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
-
-	crc += calc_crc8(&app_info->mechine, sizeof(mechine_info_t));
-
-	if(crc != eeprom_app_head.crc) {
-		debug("\n");
-		return ret;
-	}
-
-	ret = 0;
-
-	return ret;
+	return eeprom_load_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
 }
 
 int app_save_config(void)
 {
-	int ret = -1;
-	uint32_t offset;
-	uint32_t crc = 0;
-	eeprom_app_head_t eeprom_app_head;
-
-	offset = 0;
-
-	if(detect_eeprom(eeprom_info) != 0) {
-		debug("\n");
-		return ret;
-	}
-
-	eeprom_app_head.payload_size = sizeof(eeprom_app_info_t) - sizeof(eeprom_app_head_t);
-
-	crc += eeprom_app_head.payload_size;
-	crc += (uint32_t)'e';
-	crc += (uint32_t)'v';
-	crc += (uint32_t)'a';
-
-	crc += calc_crc8(&app_info->mechine, sizeof(mechine_info_t));
-
-	eeprom_app_head.crc = crc;
-
-	eeprom_write(eeprom_info, offset, (uint8_t *)&eeprom_app_head, sizeof(eeprom_app_head_t));
-	offset += sizeof(eeprom_app_head_t);
-
-	eeprom_write(eeprom_info, offset, (uint8_t *)&app_info->mechine, sizeof(mechine_info_t));
-
-	return 0;
+	return eeprom_save_config_item(eeprom_info, "eva", &app_info->mechine, sizeof(mechine_info_t), 0);
 }
 
 #define test_config_get(cls, key) do { \
