@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年12月17日 星期四 14时26分49秒
+#   修改日期：2020年12月24日 星期四 17时11分53秒
 #   描    述：
 #
 #================================================================
@@ -80,15 +80,15 @@ define update-iap-include
 endef
 
 ifeq ("$(origin APP)", "command line")
-app-type := .app-type-app
-app-type-invalid := .app-type-bootloader
+build-type := .build-type-app
+build-type-invalid := .build-type-bootloader
 CFLAGS += -DUSER_APP
 LDSCRIPT = STM32F207VETx_FLASH_APP.ld
 #$(info $(shell $(update-iap-include)))
 $(info "build app!")
 else
-app-type := app-type-bootloader
-app-type-invalid := app-type-app
+build-type := .build-type-bootloader
+build-type-invalid := .build-type-app
 LDSCRIPT = STM32F207VETx_FLASH.ld
 #$(info $(shell $(update-iap-include)))
 $(info "build bootloader!")
@@ -96,10 +96,10 @@ endif
 
 default: all
 
-all : $(app-type)
+all : $(build-type)
 
-$(app-type) :
-	-rm $(app-type-invalid)
+$(build-type) :
+	-rm $(build-type-invalid)
 	$(shell $(update-iap-include))
 	touch $@
 
