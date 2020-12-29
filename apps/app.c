@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月29日 星期二 11时18分04秒
+ *   修改日期：2020年12月29日 星期二 15时21分38秒
  *   描    述：
  *
  *================================================================*/
@@ -167,11 +167,8 @@ void app(void const *argument)
 	//ftpd_init();
 
 	//test_config();
-
-	{
-		osThreadDef(test_event, task_test_event, osPriorityNormal, 0, 128 * 2 * 2);
-		osThreadCreate(osThread(test_event), NULL);
-	}
+	
+	test_event();
 
 	while(1) {
 		handle_open_log();
