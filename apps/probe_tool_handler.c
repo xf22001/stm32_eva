@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2020年10月12日 星期一 09时00分50秒
+ *   修改日期：2020年12月29日 星期二 16时57分16秒
  *   描    述：
  *
  *================================================================*/
@@ -197,13 +197,24 @@ static void fn5(request_t *request)
 	uint8_t is_app = 0;
 	uint32_t ticks = osKernelSysTick();
 	uint16_t cpu_usage = osGetCPUUsage();
+	size_t total_heap_size = get_total_heap_size();
+	size_t heap_size;
+	size_t heap_count;
+	size_t heap_max_size;
 
 #if defined(USER_APP)
 	is_app = 1;
 #endif
+	get_mem_info(&heap_size, &heap_count,  &heap_max_size);
 
 	_printf("cpu usage:%d\n", cpu_usage);
-	_printf("free heap size:%d\n", size);
+	_printf("free os heap size:%d\n", size);
+	_printf("total heap size:%d, free heap size:%d, used:%d, heap count:%d, max heap size:%d\n",
+			total_heap_size,
+			total_heap_size - heap_size,
+			heap_size,
+			heap_count,
+			heap_max_size);
 	_printf("current ticks:%lu\n", ticks);
 	_printf("%lu day %lu hour %lu min %lu sec\n",
 	        ticks / (1000 * 60 * 60 * 24),//day
