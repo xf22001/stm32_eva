@@ -6,11 +6,12 @@
  *   文件名称：uart_debug_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年05月13日 星期三 13时18分00秒
- *   修改日期：2020年05月15日 星期五 08时29分20秒
+ *   修改日期：2020年12月29日 星期二 09时17分32秒
  *   描    述：
  *
  *================================================================*/
 #include "uart_debug_handler.h"
+#include "test_event.h"
 
 #define LOG_UART
 #include "log.h"
@@ -18,6 +19,11 @@
 static void fn1(char *arguments)
 {
 	_printf("%s:%s:%d arguments:\'%s\'\n", __FILE__, __func__, __LINE__, arguments);
+}
+
+static void fn2(char *arguments)
+{
+	try_get_test_event();
 }
 
 uint16_t osGetCPUUsage(void);
@@ -70,6 +76,7 @@ static void fn5(char *arguments)
 
 static uart_fn_item_t uart_fn_map[] = {
 	{1, fn1},
+	{2, fn2},
 	{5, fn5},
 };
 

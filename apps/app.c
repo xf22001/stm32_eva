@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2020年12月17日 星期四 14时30分36秒
+ *   修改日期：2020年12月29日 星期二 09时16分52秒
  *   描    述：
  *
  *================================================================*/
@@ -18,6 +18,7 @@
 
 #include "os_utils.h"
 #include "test_serial.h"
+#include "test_event.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
@@ -159,12 +160,17 @@ void app(void const *argument)
 		app_info->available = 1;
 	}
 
-	net_client_add_poll_loop(poll_loop);
+	//net_client_add_poll_loop(poll_loop);
 	//ftp_client_add_poll_loop(poll_loop);
 
-	ftpd_init();
+	//ftpd_init();
 
 	//test_config();
+
+	{
+		osThreadDef(test_event, task_test_event, osPriorityNormal, 0, 128 * 2 * 2);
+		osThreadCreate(osThread(test_event), NULL);
+	}
 
 	while(1) {
 		handle_open_log();

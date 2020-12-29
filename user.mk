@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2020年12月24日 星期四 17时11分53秒
+#   修改日期：2020年12月29日 星期二 09时09分19秒
 #   描    述：
 #
 #================================================================
@@ -63,6 +63,7 @@ USER_C_SOURCES += apps/modules/os/os_utils.c
 USER_C_SOURCES += apps/modules/os/net_utils.c
 USER_C_SOURCES += apps/modules/os/cpu_utils.c
 USER_C_SOURCES += apps/modules/tests/test_serial.c
+USER_C_SOURCES += apps/modules/tests/test_event.c
 
 USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 
@@ -80,15 +81,15 @@ define update-iap-include
 endef
 
 ifeq ("$(origin APP)", "command line")
-build-type := .build-type-app
-build-type-invalid := .build-type-bootloader
+build-type := .app.stamps
+build-type-invalid := .bootloader.stamps
 CFLAGS += -DUSER_APP
 LDSCRIPT = STM32F207VETx_FLASH_APP.ld
 #$(info $(shell $(update-iap-include)))
 $(info "build app!")
 else
-build-type := .build-type-bootloader
-build-type-invalid := .build-type-app
+build-type := .bootloader.stamps
+build-type-invalid := .app.stamps
 LDSCRIPT = STM32F207VETx_FLASH.ld
 #$(info $(shell $(update-iap-include)))
 $(info "build bootloader!")
