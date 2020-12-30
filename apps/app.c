@@ -170,7 +170,7 @@ void app(void const *argument)
 
 	//test_config();
 	
-	test_event();
+	//test_event();
 	//test_map_utils();
 	//test_sys_class();
 
