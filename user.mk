@@ -6,7 +6,7 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2021年01月04日 星期一 13时29分31秒
+#   修改日期：2021年01月15日 星期五 10时24分33秒
 #   描    述：
 #
 #================================================================
@@ -114,8 +114,8 @@ cscope: all
 	$(silent)touch dep_files;
 	$(silent)for f in $$(find . -type f -name "*.d" 2>/dev/null); do \
 		for i in $$(cat "$$f" | sed 's/^.*://g' | sed 's/[\\ ]/\n/g' | sort -h | uniq); do \
-			if test "${i:0:1}" = "/";then \
-				echo "$i" >> dep_files; \
+			if test "$${i:0:1}" = "/";then \
+				echo "$$i" >> dep_files; \
 			else \
 				readlink -f "$$i" >> dep_files; \
 			fi; \
