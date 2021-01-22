@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年01月20日 星期三 11时40分40秒
+ *   修改日期：2021年01月22日 星期五 14时35分57秒
  *   描    述：
  *
  *================================================================*/
@@ -24,6 +24,7 @@
 #include "test_event.h"
 #include "test_map_utils.h"
 #include "test_can.h"
+#include "test_soft_timer.h"
 #include "probe_tool.h"
 #include "net_client.h"
 #include "ftp_client.h"
@@ -145,10 +146,11 @@ void app(void const *argument)
 	//test_event();
 	//test_map_utils();
 	//test_sys_class();
-	test_can();
+	//test_can();
+	//test_soft_timer();
 
 	while(1) {
-		handle_open_log();
+		//handle_open_log();
 		osDelay(1000);
 	}
 }
