@@ -146,7 +146,7 @@ void app(void const *argument)
 	//test_event();
 	//test_map_utils();
 	//test_sys_class();
-	test_can();
+	//test_can();
 	//test_soft_timer();
 
 	while(1) {
