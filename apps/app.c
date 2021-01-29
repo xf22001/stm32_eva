@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年01月25日 星期一 09时18分50秒
+ *   修改日期：2021年01月29日 星期五 16时35分58秒
  *   描    述：
  *
  *================================================================*/
@@ -25,14 +25,15 @@
 #include "test_map_utils.h"
 #include "test_can.h"
 #include "test_soft_timer.h"
+#include "usart_txrx.h"
 #include "probe_tool.h"
+#include "file_log.h"
+#include "uart_debug.h"
 #include "net_client.h"
 #include "ftp_client.h"
 #include "ftpd/ftpd.h"
 
 #include "log.h"
-
-#include "file_log.h"
 
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
@@ -62,6 +63,9 @@ void app(void const *argument)
 
 	poll_loop_t *poll_loop;
 	mt_file_environment_init();
+	add_log_handler((log_fn_t)log_uart_data);
+	add_log_handler((log_fn_t)log_udp_data);
+	add_log_handler((log_fn_t)log_file_data);
 
 	{
 		uart_info_t *uart_info = get_or_alloc_uart_info(&huart1);
