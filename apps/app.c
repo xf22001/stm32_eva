@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年02月01日 星期一 14时19分23秒
+ *   修改日期：2021年02月01日 星期一 14时41分41秒
  *   描    述：
  *
  *================================================================*/
@@ -191,10 +191,9 @@ static void update_work_led(void)
 		break;
 
 		case PWM_COMPARE_COUNT_KEEP: {//保持亮
-			if(keep_count < duty_cycle) {
+			if(keep_count > duty_cycle) {
 				keep_count -= 200;
 			} else {
-				keep_count = 0;
 				type = PWM_COMPARE_COUNT_UP;//慢慢灭
 			}
 
