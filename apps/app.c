@@ -194,6 +194,7 @@ static void update_work_led(void)
 			if(keep_count > duty_cycle) {
 				keep_count -= 200;
 			} else {
+				keep_count = 1000;
 				type = PWM_COMPARE_COUNT_UP;//慢慢灭
 			}
 
