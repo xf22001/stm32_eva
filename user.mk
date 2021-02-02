@@ -6,10 +6,12 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2021年01月29日 星期五 14时31分26秒
+#   修改日期：2021年02月02日 星期二 12时50分47秒
 #   描    述：
 #
 #================================================================
+
+include sal.mk
 
 USER_C_INCLUDES += -Iapps
 USER_C_INCLUDES += -Iapps/modules
@@ -63,14 +65,14 @@ USER_C_SOURCES += apps/modules/os/iap.c
 USER_C_SOURCES += apps/modules/os/os_utils.c
 USER_C_SOURCES += apps/modules/os/net_utils.c
 USER_C_SOURCES += apps/modules/os/cpu_utils.c
-USER_C_SOURCES += apps/modules/os/map_utils.c
 USER_C_SOURCES += apps/modules/os/soft_timer.c
 USER_C_SOURCES += apps/modules/os/log.c
+USER_C_SOURCES += apps/modules/os/object_class.c
 USER_C_SOURCES += apps/modules/tests/test_serial.c
 USER_C_SOURCES += apps/modules/tests/test_event.c
-USER_C_SOURCES += apps/modules/tests/test_map_utils.c
 USER_C_SOURCES += apps/modules/tests/test_can.c
 USER_C_SOURCES += apps/modules/tests/test_soft_timer.c
+USER_C_SOURCES += apps/modules/tests/test_object_class.c
 
 USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
 
