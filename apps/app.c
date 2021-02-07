@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年02月04日 星期四 10时43分24秒
+ *   修改日期：2021年02月07日 星期日 15时22分32秒
  *   描    述：
  *
  *================================================================*/
@@ -38,6 +38,7 @@
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart3;
 extern SPI_HandleTypeDef hspi3;
 
 static app_info_t *app_info = NULL;
@@ -79,17 +80,6 @@ void app(void const *argument)
 		osThreadDef(uart_debug, task_uart_debug, osPriorityNormal, 0, 128 * 2 * 2);
 		osThreadCreate(osThread(uart_debug), uart_info);
 	}
-
-	//{
-	//	uart_info_t *uart_info = get_or_alloc_uart_info(&huart1);
-
-	//	if(uart_info == NULL) {
-	//		app_panic();
-	//	}
-
-	//	osThreadDef(task_test_serial, task_test_serial, osPriorityNormal, 0, 128);
-	//	osThreadCreate(osThread(task_test_serial), uart_info);
-	//}
 
 	poll_loop = get_or_alloc_poll_loop(0);
 
@@ -149,6 +139,8 @@ void app(void const *argument)
 	//test_can();
 	//test_object_class();
 	//test_soft_timer();
+	//test_serial(&huart1);
+	//test_serial(&huart3);
 
 	while(1) {
 		//handle_open_log();
