@@ -6,7 +6,7 @@
 #   文件名称：flash.sh
 #   创 建 者：肖飞
 #   创建日期：2019年08月09日 星期五 10时59分21秒
-#   修改日期：2020年08月21日 星期五 11时40分53秒
+#   修改日期：2021年03月05日 星期五 09时08分59秒
 #   描    述：
 #
 #================================================================
@@ -154,10 +154,10 @@ function main() {
 	fi	
 
 	if [ $debug -eq 1 ];then
-		gen_jlink_script_debug
-		JLinkExe -Device "STM32F207VE" -IF "$link_if" -JTAGConf "-1,-1" -Speed "4000" -CommanderScript "$jlink_script"
-		rm "$jlink_script"
-		JLinkGDBServer -select USB -device STM32F207VE -endian little -if $link_if -speed 2000 -noir -noLocalhostOnly
+		#gen_jlink_script_debug
+		#JLinkExe -Device "STM32F207VE" -IF "$link_if" -JTAGConf "-1,-1" -Speed "4000" -CommanderScript "$jlink_script"
+		#rm "$jlink_script"
+		JLinkGDBServer -select USB -device STM32F207VE -endian little -if $link_if -speed 4000 -noir -noLocalhostOnly
 	fi
 }
 

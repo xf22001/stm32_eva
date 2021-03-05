@@ -66,5 +66,5 @@ b isr_log
 	end
 
 
-monitor reset
+#monitor reset
 continue
