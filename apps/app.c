@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年03月22日 星期一 16时41分02秒
+ *   修改日期：2021年03月23日 星期二 09时15分52秒
  *   描    述：
  *
  *================================================================*/
@@ -34,6 +34,8 @@
 #include "ftpd/ftpd.h"
 
 #include "log.h"
+
+#include "duty_cycle_pattern.h"
 
 extern IWDG_HandleTypeDef hiwdg;
 extern TIM_HandleTypeDef htim4;
@@ -146,9 +148,9 @@ void app(void const *argument)
 
 	//wiz_init();
 
-	//at_device_init();
-	//sim76xx_device_class_register();
-	//sim76xx_device_register();
+	//at_device_init();//数据结构
+	//sim76xx_device_class_register();//驱动
+	//sim76xx_device_register();//数据
 
 	while(1) {
 		//handle_open_log();
@@ -156,55 +158,15 @@ void app(void const *argument)
 	}
 }
 
-typedef enum {
-	PWM_COMPARE_COUNT_UP = 0,
-	PWM_COMPARE_COUNT_DOWN,
-	PWM_COMPARE_COUNT_KEEP,
-} compare_count_type_t;
+static pattern_state_t work_pattern_state = {
+	.type = PWM_COMPARE_COUNT_UP,
+	.duty_cycle = 0,
+};
 
 static void update_work_led(void)
 {
-	static compare_count_type_t type = PWM_COMPARE_COUNT_UP;
-	static uint16_t duty_cycle = 0;
-	static uint16_t keep_count = 1000;
 	//计数值小于duty_cycle,输出1;大于duty_cycle输出0
-
-	switch(type) {
-		case PWM_COMPARE_COUNT_UP: {//慢慢灭
-
-			if(duty_cycle < 1000) {
-				duty_cycle += 8;
-			} else {
-				type = PWM_COMPARE_COUNT_DOWN;
-			}
-		}
-		break;
-
-		case PWM_COMPARE_COUNT_DOWN: {//快速亮
-			if(duty_cycle > 0) {
-				duty_cycle -= 20;
-			} else {
-				type = PWM_COMPARE_COUNT_KEEP;
-			}
-
-		}
-		break;
-
-		case PWM_COMPARE_COUNT_KEEP: {//保持亮
-			if(keep_count > duty_cycle) {
-				keep_count -= 200;
-			} else {
-				keep_count = 1000;
-				type = PWM_COMPARE_COUNT_UP;//慢慢灭
-			}
-
-		}
-		break;
-
-		default:
-			break;
-	}
-
+	uint16_t duty_cycle = get_duty_cycle_pattern(&work_pattern_state, 1000, 0, 20);
 	__HAL_TIM_SET_COMPARE(&htim4, TIM_CHANNEL_3, duty_cycle);
 }
 
