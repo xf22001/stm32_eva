@@ -35,6 +35,7 @@
 /* USER CODE BEGIN Includes */
 
 #include "iap.h"
+#include "early_sys_callback.h"
 
 /* USER CODE END Includes */
 
@@ -99,6 +100,8 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+
+  early_sys_callback();
 
   /* USER CODE END SysInit */
 

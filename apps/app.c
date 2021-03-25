@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年03月23日 星期二 09时15分52秒
+ *   修改日期：2021年03月23日 星期二 10时22分38秒
  *   描    述：
  *
  *================================================================*/
@@ -65,7 +65,6 @@ void app(void const *argument)
 {
 
 	poll_loop_t *poll_loop;
-	mt_file_environment_init();
 	add_log_handler((log_fn_t)log_uart_data);
 	add_log_handler((log_fn_t)log_udp_data);
 	add_log_handler((log_fn_t)log_file_data);
@@ -143,14 +142,14 @@ void app(void const *argument)
 	//test_serial(&huart1);
 	//test_serial(&huart3);
 	
-	//sal_init();
-	//netdev_init();
+	sal_init();
+	netdev_init();
 
-	//wiz_init();
+	wiz_init();
 
-	//at_device_init();//数据结构
-	//sim76xx_device_class_register();//驱动
-	//sim76xx_device_register();//数据
+	at_device_init();//数据结构
+	sim76xx_device_class_register();//驱动
+	sim76xx_device_register();//数据
 
 	while(1) {
 		//handle_open_log();

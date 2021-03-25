@@ -6,10 +6,12 @@
 #   文件名称：user.mk
 #   创 建 者：肖飞
 #   创建日期：2019年10月25日 星期五 13时04分38秒
-#   修改日期：2021年02月04日 星期四 10时52分25秒
+#   修改日期：2021年03月23日 星期二 10时23分25秒
 #   描    述：
 #
 #================================================================
+
+include sal/sal.mk
 
 USER_C_INCLUDES += -Iapps
 USER_C_INCLUDES += -Iapps/modules
@@ -26,6 +28,8 @@ USER_C_SOURCES += apps/app.c
 USER_C_SOURCES += apps/probe_tool_handler.c
 USER_C_SOURCES += apps/uart_debug_handler.c
 USER_C_SOURCES += apps/os_memory.c
+USER_C_SOURCES += apps/early_sys_callback.c
+USER_C_SOURCES += apps/usbh_user_callback.c
 
 USER_C_SOURCES += apps/modules/app/eeprom_config.c
 USER_C_SOURCES += apps/modules/app/poll_loop.c
@@ -53,11 +57,13 @@ USER_C_SOURCES += apps/modules/app/mt_file.c
 USER_C_SOURCES += apps/modules/app/can_data_task.c
 USER_C_SOURCES += apps/modules/app/can_config.c
 USER_C_SOURCES += apps/modules/app/duty_cycle_pattern.c
+USER_C_SOURCES += apps/modules/app/usbh_user_callback.c
+USER_C_SOURCES += apps/modules/app/early_sys_callback.c
 USER_C_SOURCES += apps/modules/hardware/flash.c
 USER_C_SOURCES += apps/modules/hardware/eeprom.c
 USER_C_SOURCES += apps/modules/drivers/spi_txrx.c
-USER_C_SOURCES += apps/modules/drivers/usart_txrx.c
 USER_C_SOURCES += apps/modules/drivers/can_txrx.c
+USER_C_SOURCES += apps/modules/drivers/usart_txrx.c
 USER_C_SOURCES += apps/modules/os/event_helper.c
 USER_C_SOURCES += apps/modules/os/callback_chain.c
 USER_C_SOURCES += apps/modules/os/bitmap_ops.c
