@@ -17,7 +17,8 @@ extern "C"
 {
 #endif
 
-#include <stdint.h>
+#include "app_platform.h"
+#include "cmsis_os.h"
 
 #include "eeprom_config.h"
 
@@ -26,11 +27,7 @@ extern "C"
 #endif
 #define VER_MAJOR 0
 #define VER_MINOR 0
-#if defined(USER_APP)
-#define VER_REV 1
-#else
 #define VER_REV 0
-#endif
 #define VER_BUILD 0
 
 #pragma pack(push, 1)
