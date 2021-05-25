@@ -33,11 +33,14 @@ extern "C"
 
 typedef struct {
 	eeprom_config_item_head_t head;
-	mechine_info_t mechine;
+	mechine_info_t mechine_info;
 } eeprom_mechine_info_t;
 
 typedef struct {
-	eeprom_mechine_info_t mechine_info;
+	union {
+		eeprom_mechine_info_t eeprom_mechine_info;
+		uint8_t seg[256];
+	} mechine_info_seg;
 } eeprom_layout_t;
 
 static inline eeprom_layout_t *get_eeprom_layout(void)

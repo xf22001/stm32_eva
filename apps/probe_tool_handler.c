@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2021年05月13日 星期四 15时21分57秒
+ *   修改日期：2021年05月25日 星期二 08时58分14秒
  *   描    述：
  *
  *================================================================*/
@@ -245,7 +245,7 @@ extern request_callback_t request_callback_default;
 static void fn6(request_t *request)
 {
 	char *content = (char *)(request + 1);
-	char *protocol = (char *)os_alloc(RECV_BUFFER_SIZE);
+	char protocol[8];
 	int fn;
 	int catched;
 	int ret = 0;
@@ -257,7 +257,7 @@ static void fn6(request_t *request)
 
 	set_client_state(net_client_info, CLIENT_SUSPEND);
 
-	ret = sscanf(content, "%d %s%n", &fn, protocol, &catched);
+	ret = sscanf(content, "%d %3s%n", &fn, protocol, &catched);
 
 	if(ret == 2) {
 		_printf("protocol:%s!\n", protocol);
@@ -363,16 +363,16 @@ static void fn11(request_t *request)
 
 	if(ret == 4) {
 		app_info->available = 0;
-		strcpy(app_info->mechine.device_id, buffer->device_id);
-		strcpy(app_info->mechine.host, buffer->host);
-		strcpy(app_info->mechine.port, buffer->port);
+		strcpy(app_info->mechine_info.device_id, buffer->device_id);
+		strcpy(app_info->mechine_info.host, buffer->host);
+		strcpy(app_info->mechine_info.port, buffer->port);
 		app_info->available = 1;
 		app_save_config();
 	}
 
 	os_free(buffer);
 
-	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine.device_id, app_info->mechine.host, app_info->mechine.port);
+	debug("device id:\'%s\', server host:\'%s\', server port:\'%s\'!", app_info->mechine_info.device_id, app_info->mechine_info.host, app_info->mechine_info.port);
 
 	set_client_state(net_client_info, CLIENT_REINIT);
 }
