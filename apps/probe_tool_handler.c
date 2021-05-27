@@ -6,7 +6,7 @@
  *   文件名称：probe_tool_handler.c
  *   创 建 者：肖飞
  *   创建日期：2020年03月20日 星期五 12时48分07秒
- *   修改日期：2021年05月25日 星期二 08时58分14秒
+ *   修改日期：2021年05月27日 星期四 08时40分18秒
  *   描    述：
  *
  *================================================================*/
@@ -22,11 +22,10 @@
 #include "iap.h"
 #include "app.h"
 #include "ftp_client.h"
+#include "sal_hook.h"
 
 #define LOG_UDP
 #include "log.h"
-
-extern struct netif gnetif;
 
 static void fn1(request_t *request)
 {
@@ -178,7 +177,8 @@ static void get_host_by_name(char *content, uint32_t size)
 
 static void fn4(request_t *request)
 {
-	_printf("local host ip:%s\n", inet_ntoa(gnetif.ip_addr));
+	ip_addr_t *local_ip = get_default_gw();
+	_printf("local host ip:%s\n", inet_ntoa(*local_ip));
 
 	get_host_by_name((char *)(request + 1), request->header.data_size);
 	memset(request, 0, RECV_BUFFER_SIZE);
@@ -263,11 +263,14 @@ static void fn6(request_t *request)
 		_printf("protocol:%s!\n", protocol);
 
 		if(memcmp(protocol, "tcp", 3) == 0) {
-			set_net_client_protocol_if(net_client_info, &protocol_if_tcp);
-			set_net_client_request_callback(net_client_info, &request_callback_default);
+			set_net_client_protocol_type(net_client_info, PROTOCOL_TCP);
+			set_net_client_request_type(net_client_info, REQUEST_TYPE_DEFAULT);
 		} else if(memcmp(protocol, "udp", 3) == 0) {
-			set_net_client_protocol_if(net_client_info, &protocol_if_udp);
-			set_net_client_request_callback(net_client_info, &request_callback_default);
+			set_net_client_protocol_type(net_client_info, PROTOCOL_UDP);
+			set_net_client_request_type(net_client_info, REQUEST_TYPE_DEFAULT);
+		} else if(memcmp(protocol, "ws", 2) == 0) {
+			set_net_client_protocol_type(net_client_info, PROTOCOL_WS);
+			set_net_client_request_type(net_client_info, REQUEST_TYPE_DEFAULT_WEBSOCKET);
 		}
 
 	} else {
@@ -377,8 +380,8 @@ static void fn11(request_t *request)
 	set_client_state(net_client_info, CLIENT_REINIT);
 }
 
-//12 192.168.1.128 2121 /user.mk anonymous
-//12 192.168.1.128 2121 /user.mk user pass
+//12 10.42.0.1 2121 /user.mk anonymous
+//12 10.42.0.1 2121 /user.mk user pass
 //12 ftp.gnu.org 21 /gnu/tar/tar-1.32.tar.gz anonymous
 //12 ftp.sjtu.edu.cn 21 /centos/2/centos2-scripts-v1.tar anonymous
 static void fn12(request_t *request)
