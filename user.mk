@@ -82,6 +82,8 @@ USER_C_SOURCES += apps/modules/tests/test_object_class.c
 C_SOURCES += $(USER_C_SOURCES)
 
 USER_CFLAGS += -DtraceTASK_SWITCHED_IN=StartIdleMonitor -DtraceTASK_SWITCHED_OUT=EndIdleMonitor
+#USER_CFLAGS += -DLOG_DISABLE
+#USER_CFLAGS += -DALLOC_TRACE_DISABLE
 
 CFLAGS += $(USER_CFLAGS)
 LDFLAGS += -u _printf_float
