@@ -6,7 +6,7 @@
  *   文件名称：app.c
  *   创 建 者：肖飞
  *   创建日期：2019年10月11日 星期五 16时54分03秒
- *   修改日期：2021年05月27日 星期四 09时07分15秒
+ *   修改日期：2021年07月05日 星期一 13时24分05秒
  *   描    述：
  *
  *================================================================*/
@@ -158,14 +158,14 @@ void app(void const *argument)
 	//test_serial(&huart1);
 	//test_serial(&huart3);
 	
-	sal_init();
-	netdev_init();
+	//sal_init();
+	//netdev_init();
 
-	wiz_init();
+	//wiz_init();
 
-	at_device_init();//数据结构
-	sim76xx_device_class_register();//驱动
-	sim76xx_device_register();//数据
+	//at_device_init();//数据结构
+	//sim76xx_device_class_register();//驱动
+	//sim76xx_device_register();//数据
 
 	while(1) {
 		uint32_t event;
